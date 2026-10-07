@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#79c43b">
+  <meta name="description" content="Watermelon Games — a simple browser game hub powered by LuminSDK.">
+  <title>Watermelon Games</title>
+  <style>
+    :root {
+      --green: #79c43b;
+      --green-dark: #4d8f20;
+      --pink: #ff4f75;
+      --cream: #fffdf5;
+      --ink: #18220f;
+      --muted: #66705e;
+      --card: rgba(255,255,255,.86);
+      --shadow: 0 18px 50px rgba(45,75,25,.15);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255,255,255,.9), transparent 28%),
+        radial-gradient(circle at 90% 20%, rgba(255,255,255,.7), transparent 24%),
+        linear-gradient(145deg, #dff5bb 0%, #fff6d7 48%, #ffd9df 100%);
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(255,255,255,.72);
+      border-bottom: 1px solid rgba(24,34,15,.08);
+    }
+    .nav {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; font-size: 22px; letter-spacing: -.5px; }
+    .logo {
+      width: 44px; height: 44px; border-radius: 50%; position: relative;
+      display: grid; place-items: center; font-size: 24px;
+      background: radial-gradient(circle at 32% 28%, #ff7f98 0 8%, transparent 9%),
+                  radial-gradient(circle at 68% 28%, #ff7f98 0 8%, transparent 9%),
+                  radial-gradient(circle at 50% 56%, #ff7f98 0 9%, transparent 10%),
+                  linear-gradient(135deg, #f85c7a, #e92d59);
+      box-shadow: inset 0 -6px 0 rgba(0,0,0,.08);
+      border: 3px solid #fff;
+    }
+    .leaf { position: absolute; width: 18px; height: 9px; background: var(--green); border-radius: 100% 0 100% 0; top: -5px; right: 2px; transform: rotate(-18deg); }
+    .hero { width: min(1180px, calc(100% - 32px)); margin: auto; padding: 74px 0 32px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; align-items: center; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.75); border: 1px solid rgba(24,34,15,.08); padding: 8px 13px; border-radius: 999px; font-size: 13px; font-weight: 800; }
+    h1 { font-size: clamp(48px, 8vw, 88px); line-height: .92; letter-spacing: -5px; margin: 18px 0; }
+    h1 span { color: var(--pink); }
+    .hero p { max-width: 650px; color: var(--muted); font-size: 18px; line-height: 1.65; margin: 0 0 24px; }
+    .cta { display: inline-flex; align-items: center; gap: 10px; padding: 13px 18px; border-radius: 14px; background: var(--ink); color: white; text-decoration: none; font-weight: 850; box-shadow: var(--shadow); }
+    .melon-art { width: min(360px, 80vw); aspect-ratio: 1; margin: auto; border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%; background: linear-gradient(145deg, #ff6682, #ee315c); border: 16px solid #fff; box-shadow: 0 30px 70px rgba(99,48,54,.2); position: relative; transform: rotate(-7deg); }
+    .melon-art::before { content: ""; position: absolute; inset: 12% 13%; border-radius: inherit; background: radial-gradient(ellipse at 20% 22%, #222 0 3px, transparent 4px), radial-gradient(ellipse at 65% 30%, #222 0 3px, transparent 4px), radial-gradient(ellipse at 42% 66%, #222 0 3px, transparent 4px), radial-gradient(ellipse at 78% 72%, #222 0 3px, transparent 4px), radial-gradient(ellipse at 32% 44%, #222 0 3px, transparent 4px); opacity: .8; }
+    .melon-art::after { content: ""; position: absolute; width: 85px; height: 42px; background: var(--green); border-radius: 100% 0 100% 0; top: -25px; right: 30px; transform: rotate(-12deg); }
+    main { width: min(1180px, calc(100% - 32px)); margin: auto; padding: 20px 0 70px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin: 22px 0 18px; }
+    .section-head h2 { margin: 0; font-size: 30px; letter-spacing: -1px; }
+    .section-head p { margin: 0; color: var(--muted); }
+    .sdk-shell { background: var(--card); border: 1px solid rgba(255,255,255,.85); border-radius: 28px; padding: 20px; box-shadow: var(--shadow); min-height: 620px; }
+    #games { min-height: 560px; }
+    .loading { min-height: 540px; display: grid; place-items: center; text-align: center; color: var(--muted); }
+    .spinner { width: 46px; height: 46px; border: 5px solid rgba(121,196,59,.22); border-top-color: var(--green); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    footer { text-align: center; color: var(--muted); padding: 0 20px 30px; font-size: 13px; }
+    @media (max-width: 800px) {
+      .hero { padding-top: 48px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .melon-art { width: 230px; }
+      h1 { letter-spacing: -3px; }
+      .sdk-shell { padding: 10px; border-radius: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="brand"><div class="logo" aria-hidden="true"><i class="leaf"></i></div>Watermelon Games</div>
+      <a class="cta" href="#games">Play now 🍉</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="pill">🍉 Fresh games</div>
+        <h1>Watermelon<br><span>Games.</span></h1>
+        <p>A clean, simple game hub for playing browser games.</p>
+        <a class="cta" href="#games">Open the game library ↓</a>
+      </div>
+      <div class="melon-art" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main>
+    <div class="section-head">
+      <div>
+        <h2>Game Library</h2>
+        <p>Pick a game and start playing.</p>
+      </div>
+    </div>
+
+    <section class="sdk-shell" aria-label="Lumin game library">
+      <div id="games">
+        <div class="loading" id="loading"><div><div class="spinner"></div><strong>Loading games…</strong></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Watermelon Games 🍉</footer>
+
+  <script src="https://cdn.jsdelivr.net/gh/luminsdk/script@latest/lumin.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const loading = document.getElementById('loading');
+      if (location.protocol === 'file:') {
+        if (loading) loading.innerHTML = '<div><strong>Open Watermelon Games through its web address.</strong><div style="margin-top:6px">Do not open index.html directly from a ZIP or your Downloads folder.</div></div>';
+        return;
+      }
+      try {
+        if (!window.Lumin || typeof window.Lumin.init !== 'function') {
+          throw new Error('Game library failed to load.');
+        }
+        window.Lumin.init({ container: '#games', theme: 'dark' });
+        if (loading) loading.remove();
+      } catch (error) {
+        console.error('Game library startup failed:', error);
+        if (loading) loading.innerHTML = '<div><strong>Games could not load.</strong><div style="margin-top:6px">Refresh the page and try again.</div></div>';
+      }
+    });
+  </script>
+</body>
+</html>
